@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Húsvét kalkulátor</title>
+</head>
+
+<script>
+    function husvet(){
+        var T = document.getElementById("lista").value
+        var A = (T%19);
+        var B = (T % 4); 
+        var C = (T % 7)
+        var D = ((19*A)+24) % 30
+        var E = ((2*B) +(4*C)+ (6*D) +5) % 7
+        var H = (22 + D +E);
+
+        if ( E ==6 && D == 29){
+            if( E == 6 && D == 28 && A > 10){
+                    H = 49
+            }
+        }
+        else{
+            H = (22+D+E)
+        }
+    
+        if (H <= 31){
+            document.getElementById("e").innerHTML = "Március" + " " + H
+        }
+        else {
+            H = H - 31 
+            document.getElementById("e").innerHTML = "Április" +" " + H
+        }
+    }
+
+
+
+    </script>
+<body>
+    <form>
+        <b> Válassz egy évet, és megmondjuk, mikor lesz az adott évben húsvét</b>
+        <select id = "lista" >
+            <option value="2020"> 2020 </option>
+            <option value="2021"> 2021</option>
+            <option value="2022"> 2022 </option>
+            <option value="2023"> 2023 </option>
+            <option value="2024"> 2024 </option>
+            <option value="2025"> 2025 </option>
+            <option value="2026"> 2026 </option>
+            <option value="2027"> 2027 </option>
+            <option value="2028"> 2028 </option>
+            <option value="2029"> 2029 </option>
+            <option value="2030"> 2030 </option>
+        </select>
+        </form>
+        <button onclick="husvet()">Indít</button>
+        <p id="e"></p>
+        
+    
+</body>
+</html>

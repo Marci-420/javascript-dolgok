@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dátumsz</title>
+</head>
+<body>
+
+    <p id ="dt"></p>
+    <p id ="ev"></p>
+    <p id ="honap"></p>
+    <p id ="nap"></p>
+    <p id = "ora"></p>
+    <p id ="milisec"></p>
+
+    <script>
+        var dt = "2023-01-11 12:33:50"
+
+        const szed = dt.split(":");
+        const szed2 = dt.split(" ");
+        const szed3 = dt.split("-")
+
+        let evecske = szed3[0];
+        let honapocska = szed3[1];
+        let napocska = szed3[2];
+        let oracska = szed2[1];
+
+       document.getElementById("dt").innerHTML = dt;
+       document.getElementById("ev").innerHTML = evecske;
+       document.getElementById("honap").innerHTML = honapocska;
+       document.getElementById("nap").innerHTML = napocska;
+       document.getElementById("ora").innerHTML = oracska;
+       
+       var milisec = dt.getMiliseconds;
+       document.getelementbyid("milisec").innerhtml = milisec;
+
+    </script>
+</body>
+</html>

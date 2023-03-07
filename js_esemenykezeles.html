@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript eseménykezelés</title>
+    <script>
+            function vizsgal(){
+                var szoveg = document.getElementById("name").value
+                document.getElementById("ideir").innerHTML = szoveg
+                document.getElementById("ideir2").innerHTML = document.getElementById("email").value
+                var vizsga = document.getElementById("email").value
+                if(vizsga.length >= 5 && vizsga.includes(".") && vizsga.includes("@")){
+                    document.getElementById("ideir2").innerHTML = vizsga
+                }
+                else{
+                    document.getElementById("ideir3").innerHTML ="nem lyo"
+                }
+                  
+                
+            }
+
+    </script>
+</head>
+<body>
+    <form action=" ">  
+        <h4> Felhasználónév:</h4>  
+        <input type="text" id="name" onchange="vizsgal()">  
+        <h4> e-mail:</h4>  
+        <input type="text" id="email" onkeyup="vizsgal()" > 
+    </form>
+        <p id="ideir"></p>
+        <p id="ideir2"></p>
+        <p id="ideir3"></p>
+    
+</body>
+</html>

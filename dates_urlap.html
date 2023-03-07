@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dates-űrlap</title>
+</head>
+
+<script>
+    function vizsga(){
+        var act_date = new Date();
+        var veg = document.getElementById("end").value
+        var kez = document.getElementById("begin").value
+
+        if(kezdet < act_date ){
+            document.getElementById("ideir2").innerHTML ="Az esemény kezdő napja nem lehet a mai napnál korábban";
+        }
+        else{
+            document.getElementById("ideir2").innerHTML = kez;
+            }  
+
+        if( veg >= kez ){
+            document.getElementById("ideir3").innerHTML = veg;
+        }
+        else{
+            document.getElementById("ideir3").innerHTML = "Az esemény befejező napja csak aznap, vagy később lehet, mint a nyitó.";
+            }
+        }    
+
+</script>
+<body>
+
+        <h4> Esemény neve:</h4>  
+        <input type="text" id="name">  
+        <h4> Esemény kezdete:</h4>  
+        <input type="date" id="begin" > 
+        <h4>Esemény vége:</h4>
+        <input type="date" id="end"> 
+        <button onclick="vizsga()">Submit</button>
+    
+        <p id="ideir"></p>
+        <p id="ideir2"></p>
+        <p id="ideir3"></p>
+        
+</body>
+</html>
