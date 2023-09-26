@@ -1,0 +1,44 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Amoeba</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .grid-div {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      margin: 5px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="grid-container">
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div><br>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div><br>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+      <div class="grid-div" onclick="changeColor(this)" ondblclick="changeColorDouble(this)"></div>
+    </div>
+  </div>
+
+  <script>
+    function changeColor(element) {
+      element.style.backgroundColor = "green";
+    }
+
+    function changeColorDouble(element) {
+      element.style.backgroundColor = "yellow";
+    }
+  </script>
+</body>
+</html>
+</html>
