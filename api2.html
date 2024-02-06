@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <title>Document</title>
+<style>
+    img {
+        max-width: 500px;
+        max-height: 500px;
+        display: block;
+    }
+</style>
+</head>
+
+<body>
+<div class="container d-flex flex-column justify-content-center align-items-center h-100">
+    <button class="btn btn-dark" id="randomPerson">Random ember</button>
+    <br>
+    <h1 id="person"></h1>
+
+    <script>
+        const apiAddr = "https://wttr.in/"
+        
+        
+        
+        const personBtn = document.getElementById("randomPerson")
+        const personOut = document.getElementById("person")
+
+        const xhr = new XMLHttpRequest()
+
+        
+
+       
+        personBtn.addEventListener("click", function () {
+            xhr.open("GET", "https://random-data-api.com/api/v2/users?size=2&is_xml=true", true)
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let resp = JSON.parse(xhr.response)
+                    let person = resp[0]
+
+                    let outputString = "Id: " + person.id + ", Uid: " + person.uid + " " + person.first + ", password: " + person.password
+
+                    personOut.textContent = outputString
+                }
+            }
+            xhr.send()
+        })
+    </script>
+</body>
+
+</html>
