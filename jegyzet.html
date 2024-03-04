@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jegyzet app</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Jegyzet</h2>
+        <form id="message-form">
+            <div class="form-group">
+                <label for="name">Név</label>
+                <input type="text" class="form-control" id="name" placeholder="Add meg a neved">
+            </div>
+            <div class="form-group">
+                <label for="message">Jegyzet</label>
+                <textarea class="form-control" id="message" placeholder="Írd ide az üzeneted"></textarea>
+            </div>
+            <div class="form-group">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="statusz" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Státusz beállítása
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Fontos</a>
+                      <a class="dropdown-item" href="#">Későbbre halasztva</a>
+                      <a class="dropdown-item" href="#">Továbbítani</a>
+                    </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Jegyzet mentése</button>
+            <button type="submit" class="btn btn-primary">Szerkeszt</button>
+        </form>
+
+
+        <h2>Szerkesztés</h2>
+        <form id="edit-form">
+            <div class="form-group">
+                <label for="edit-id">Azonosító</label>
+                <input type="text" class="form-control" id="edit-id" disabled>
+            </div>
+            <div class="form-group">
+                <label for="name">Név</label>
+                <input type="text" class="form-control" id="edit-name" placeholder="Add meg a neved">
+            </div>
+            <div class="form-group">
+                <label for="message">Jegyzet</label>
+                <textarea class="form-control" id="edit-message" placeholder="Írd ide az üzeneted"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="edit-statusz" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Státusz beállítása
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Fontos</a>
+                  <a class="dropdown-item" href="#">Későbbre halasztva</a>
+                  <a class="dropdown-item" href="#">Továbbítani</a>
+                </div>
+        </div>
+            <button type="submit" class="btn btn-primary">Frissítés</button>
+            <button type="submit" class="btn btn-primary">Mégse</button>
+        </form>
+
+        <ul id="messages-list" class="list-group mt-4">
+            <!-- Az üzenetek itt jelennek meg -->
+        </ul>
+    </div>
+
+
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-compat.js"></script>
+
+    <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyAacJtB4MLXhM5wWIWUfxK3E0UX25DnSLY",
+                authDomain: "orai-munkak.firebaseapp.com",
+                projectId: "orai-munkak",
+                storageBucket: "orai-munkak.appspot.com",
+                messagingSenderId: "925558768445",
+                appId: "1:925558768445:web:bdf47c96679a694b6a7b54"
+              };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        document.getElementById('message-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            const statusz = document.getElementById('statusz').value;
+            console.log(name);
+
+            // adatbázis collection-ba írás
+            db.collection("jegyzet").add({
+                nev: name,
+                uzenet: message,
+                statusz: statusz
+            })
+                // mi legyen, ha sikerült (opcionális)
+                .then((docRef) => {
+                    console.log(docRef.id)
+                })
+                // mi legyen, ha hiba van (opcionális, de erősen ajánlott)
+                .catch((error) => {
+                    console.error(error);
+                });
+        });
+
+        // adatbázis collection kiolvasása console-ra
+        /*db.collection("jegyzet").onSnapshot((querySnapshot) => {
+            const documents = querySnapshot.docs;
+            for (let i = 0; i < documents.length; i++) {
+                console.log(documents[i].data());
+            }
+        }); */
+
+        // adatbázis collection kiírása az oldalon
+        db.collection("jegyzet").onSnapshot((querySnapshot) => {
+            const messagesList = document.getElementById('messages-list');
+            messagesList.innerHTML = '';
+            const documents = querySnapshot.docs;
+            for (let i = 0; i < documents.length; i++) {
+                let msg = documents[i].data();
+                //console.log(msg);
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.innerText = `${msg.nev}: ${msg.uzenet}: ${msg.statusz}`;
+
+
+                const editButton = document.createElement("button");
+                editButton.innerText = "Szerkeszt";
+                editButton.classList.add("btn", "btn-primary", "btn-sm");
+                editButton.onclick = function () {
+                    document.getElementById("edit-id").value = documents[i].id;
+                    document.getElementById("edit-name").value = documents[i].data().nev;
+                    console.log(msg.name)
+                    document.getElementById("edit-message").value = documents[i].data().uzenet;
+                    document.getElementById("edit-statusz").value = documents[i].data().statusz;
+                    document.getElementById("edit-form").style.display = "block";
+                };
+
+                li.appendChild(editButton);
+                messagesList.appendChild(li);
+            };
+        });
+
+        document.getElementById("edit-form").addEventListener("submit", function(e){
+            e.preventDefault();
+            const docId = document.getElementById("edit-id").value;
+            const name  = document.getElementById("edit-name").value;
+            const message = document.getElementById("edit-message").value;
+            const statusz = document.getElementById("edit-statusz").value;
+
+            if (docId) {
+                const docRef = db.collection("jegyzet").doc(docId);
+                docRef.update({
+                    nev: name,
+                    uzenet: message,
+                    statusz: statusz
+                }).then(() => {
+                    console.log("Document updated with ID: ", docRef.id)
+                }).catch(error => {
+                    console.error("Error updating document: ", error);
+                });
+            }
+        });
+
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
